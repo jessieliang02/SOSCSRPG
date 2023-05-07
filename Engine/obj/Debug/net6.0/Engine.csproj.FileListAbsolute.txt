@@ -1,0 +1,12 @@
+D:\Projects\SOSCSRPG\Engine\bin\Debug\net6.0\Engine.deps.json
+D:\Projects\SOSCSRPG\Engine\bin\Debug\net6.0\Engine.dll
+D:\Projects\SOSCSRPG\Engine\bin\Debug\net6.0\Engine.pdb
+D:\Projects\SOSCSRPG\Engine\obj\Debug\net6.0\Engine.csproj.AssemblyReference.cache
+D:\Projects\SOSCSRPG\Engine\obj\Debug\net6.0\Engine.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\SOSCSRPG\Engine\obj\Debug\net6.0\Engine.AssemblyInfoInputs.cache
+D:\Projects\SOSCSRPG\Engine\obj\Debug\net6.0\Engine.AssemblyInfo.cs
+D:\Projects\SOSCSRPG\Engine\obj\Debug\net6.0\Engine.csproj.CoreCompileInputs.cache
+D:\Projects\SOSCSRPG\Engine\obj\Debug\net6.0\Engine.dll
+D:\Projects\SOSCSRPG\Engine\obj\Debug\net6.0\refint\Engine.dll
+D:\Projects\SOSCSRPG\Engine\obj\Debug\net6.0\Engine.pdb
+D:\Projects\SOSCSRPG\Engine\obj\Debug\net6.0\ref\Engine.dll
