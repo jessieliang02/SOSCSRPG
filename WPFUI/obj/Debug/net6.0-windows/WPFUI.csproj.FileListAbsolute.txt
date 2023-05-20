@@ -22,3 +22,5 @@ D:\Projects\SOSCSRPG\WPFUI\obj\Debug\net6.0-windows\ref\WPFUI.dll
 D:\Projects\SOSCSRPG\WPFUI\bin\Debug\net6.0-windows\Engine.dll
 D:\Projects\SOSCSRPG\WPFUI\bin\Debug\net6.0-windows\Engine.pdb
 D:\Projects\SOSCSRPG\WPFUI\obj\Debug\net6.0-windows\WPFUI.csproj.CopyComplete
+D:\Projects\SOSCSRPG\WPFUI\obj\Debug\net6.0-windows\TradeScreen.g.cs
+D:\Projects\SOSCSRPG\WPFUI\obj\Debug\net6.0-windows\TradeScreen.baml
