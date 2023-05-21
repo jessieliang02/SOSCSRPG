@@ -21,23 +21,23 @@ namespace Engine.ViewModels
         private Player _currentPlayer;
 
         public World CurrentWorld { get; set; }
-        public Player CurrentPlayer 
-        { 
+        public Player CurrentPlayer
+        {
             get { return _currentPlayer; }
-            set 
+            set
             {
                 if(_currentPlayer != null)
                 {
+                    _currentPlayer.OnLeveledUp -= OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;
                 }
-
                 _currentPlayer = value;
-
-                if(_currentPlayer != null)
+                if (_currentPlayer != null)
                 {
+                    _currentPlayer.OnLeveledUp += OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;
                 }
-            } 
+            }
         }
         public Location CurrentLocation 
         { 
@@ -150,8 +150,8 @@ namespace Engine.ViewModels
         {
             foreach (Quest quest in CurrentLocation.QuestsAvailableHere)
             {
-                QuestStatus questToComplete = CurrentPlayer.Quests.FirstOrDefault(q => q.PlayerQuest.ID == quest.ID && !q.IsCompleted);
-
+                QuestStatus questToComplete =
+                    CurrentPlayer.Quests.FirstOrDefault(q => q.PlayerQuest.ID == quest.ID && !q.IsCompleted);
                 if (questToComplete != null)
                 {
                     if (CurrentPlayer.HasAllTheseItems(quest.ItemsToComplete))
@@ -164,18 +164,23 @@ namespace Engine.ViewModels
                                 CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.Inventory.First(item => item.ItemTypeID == itemQuantity.ItemID));
                             }
                         }
+
                         RaiseMessage("");
                         RaiseMessage($"You completed the '{quest.Name}' quest");
+
                         // Give the player the quest rewards
-                        CurrentPlayer.ExperiencePoints += quest.RewardExperiencePoints;
                         RaiseMessage($"You receive {quest.RewardExperiencePoints} experience points");
-                        CurrentPlayer.ReceiveGold(quest.RewardGold);
+                        CurrentPlayer.AddExperience(quest.RewardExperiencePoints);
+
                         RaiseMessage($"You receive {quest.RewardGold} gold");
+                        CurrentPlayer.ReceiveGold(quest.RewardGold);
+
                         foreach (ItemQuantity itemQuantity in quest.RewardItems)
                         {
                             GameItem rewardItem = ItemFactory.CreateGameItem(itemQuantity.ItemID);
-                            CurrentPlayer.AddItemToInventory(rewardItem);
+
                             RaiseMessage($"You receive a {rewardItem.Name}");
+                            CurrentPlayer.AddItemToInventory(rewardItem);
                         }
                         // Mark the Quest as completed
                         questToComplete.IsCompleted = true;
@@ -183,7 +188,6 @@ namespace Engine.ViewModels
                 }
             }
         }
-
         private void GivePlayerQuestsAtLocation()
         {
             foreach (Quest quest in CurrentLocation.QuestsAvailableHere)
@@ -213,11 +217,6 @@ namespace Engine.ViewModels
         private void GetMonsterAtLocation()
         {
             CurrentMonster = CurrentLocation.GetMonster();
-        }
-
-        private void RaiseMessage(string message)
-        {
-            OnMessgaeRaised?.Invoke(this, new GameMessageEventArgs(message));
         }
 
         public void AttackCurrentMonster()
@@ -258,6 +257,7 @@ namespace Engine.ViewModels
                 }
             }
         }
+
         private void OnCurrentPlayerKilled(object sender, System.EventArgs eventArgs)
         {
             RaiseMessage("");
@@ -270,7 +270,7 @@ namespace Engine.ViewModels
             RaiseMessage("");
             RaiseMessage($"You defeated the {CurrentMonster.Name}!");
             RaiseMessage($"You receive {CurrentMonster.RewardExperiencePoints} experience points.");
-            CurrentPlayer.ExperiencePoints += CurrentMonster.RewardExperiencePoints;
+            CurrentPlayer.AddExperience(CurrentMonster.RewardExperiencePoints);
             RaiseMessage($"You receive {CurrentMonster.Gold} gold.");
             CurrentPlayer.ReceiveGold(CurrentMonster.Gold);
             foreach (GameItem gameItem in CurrentMonster.Inventory)
@@ -278,6 +278,16 @@ namespace Engine.ViewModels
                 RaiseMessage($"You receive one {gameItem.Name}.");
                 CurrentPlayer.AddItemToInventory(gameItem);
             }
+        }
+
+        private void OnCurrentPlayerLeveledUp(object sender, System.EventArgs eventArgs)
+        {
+            RaiseMessage($"You are now level {CurrentPlayer.Level}!");
+        }
+
+        private void RaiseMessage(string message)
+        {
+            OnMessgaeRaised?.Invoke(this, new GameMessageEventArgs(message));
         }
     }
 }

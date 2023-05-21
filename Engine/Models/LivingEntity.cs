@@ -13,6 +13,7 @@ namespace Engine.Models
         private int _currentHitPoints;
         private int _maximumHitPoints;
         private int _gold;
+        private int _level;
 
         public string Name
         {
@@ -37,7 +38,7 @@ namespace Engine.Models
         public int MaximumHitPoints
         {
             get { return _maximumHitPoints; }
-            private set
+            protected set
             {
                 _maximumHitPoints = value;
                 OnPropertyChanged(nameof(MaximumHitPoints));
@@ -54,6 +55,17 @@ namespace Engine.Models
             }
         }
 
+        public int Level
+        {
+            get { return _level; }
+            protected set
+            {
+                _level = value;
+                OnPropertyChanged(nameof(Level));
+            }
+
+        }
+
         public ObservableCollection<GameItem> Inventory { get; set; }
         public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; set; }
 
@@ -62,12 +74,13 @@ namespace Engine.Models
 
         public event EventHandler OnKilled;
 
-        protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints, int gold)
+        protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints, int gold, int level=1)
         {
             Name = name;
             MaximumHitPoints = maximumHitPoints;
             CurrentHitPoints = currentHitPoints;
             Gold = gold;
+            Level = level;
 
             Inventory = new ObservableCollection<GameItem>();
             GroupedInventory = new ObservableCollection<GroupedInventoryItem>();
@@ -131,7 +144,9 @@ namespace Engine.Models
         {
             Inventory.Remove(item);
 
-            GroupedInventoryItem groupedInventoryItemToRemove = GroupedInventory.FirstOrDefault(gi => gi.Item == item);
+            GroupedInventoryItem groupedInventoryItemToRemove = item.IsUnique ?
+                GroupedInventory.FirstOrDefault(gi => gi.Item == item) :
+                GroupedInventory.FirstOrDefault(gi => gi.Item.ItemTypeID == item.ItemTypeID);
 
             if (groupedInventoryItemToRemove != null)
             {
