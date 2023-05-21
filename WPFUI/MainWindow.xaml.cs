@@ -60,7 +60,7 @@ namespace WPFUI
 
         private void OnClick_AttackMonster(object sender, RoutedEventArgs e)
         {
-            _gameSession.AttackMonster();
+            _gameSession.AttackCurrentMonster();
         }
 
         private void OnClick_DisplayTradeScreen(object sender, RoutedEventArgs e)

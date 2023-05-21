@@ -14,16 +14,12 @@ namespace Engine.Models
         public int RewardExperiencePoints { get; private set; }
 
         public Monster(string name, string imageName,
-            int maximumHitPoints, int hitPoints,
-            int rewardExperiencePoints, int rewardGold, 
-            int minimumDamage, int maximumDamage)
+            int maximumHitPoints, int currentHitPoints,
+            int rewardExperiencePoints, int gold, 
+            int minimumDamage, int maximumDamage) : base(name, maximumHitPoints, currentHitPoints, gold)
         {
-            Name = name;
             ImageName = string.Format("pack://application:,,,/Engine;component/Images/Monsters/{0}", imageName);
-            MaximumHitPoints = maximumHitPoints;
-            CurrentHitPoints = hitPoints;
             RewardExperiencePoints = rewardExperiencePoints;
-            Gold = rewardGold;
             MinimumDamage = minimumDamage;
             MaximumDamage = maximumDamage;
         }
